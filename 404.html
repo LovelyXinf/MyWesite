@@ -1,0 +1,133 @@
+---
+permalink: /404.html
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>404</title>
+
+	<style type="text/css">
+		:root {
+			--width: 600px;
+			--height: 400px;
+		}
+
+		body {
+			background: #222;
+			font-family: "Lucida Console", Monaco, monospace;
+			line-height: 1.5;
+		}
+
+		.explorer {
+			width: var(--width);
+			height: var(--height);
+			background: #ffffff;
+			border-radius: 10px;
+			box-shadow: 0px 0px 25px rgba(0, 0, 0, .1);
+			position: relative;
+			overflow: hidden;
+
+			margin: 50px auto;
+		}
+
+		.explorer:before {
+			content: attr(data-url);
+			border-top: 30px solid #ebebeb;
+			border-right: 60px solid #ebebeb;
+			border-bottom: 15px solid #ebebeb;
+			border-left: 10px solid #ebebeb;
+			color: rgba(0, 0, 0, .7);
+			padding: 5px;
+			width: 100%;
+			border-radius: 10px 10px 0 0;
+			position: absolute;
+			box-sizing: border-box;
+		}
+
+		.explorer:after {
+			content: '';
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+			background: rgba(239, 72, 54, 1);
+			box-shadow: 20px 0 0 0 rgba(249, 191, 59, 1), 40px 0 0 0 rgba(38, 194, 129);
+			top: 8px;
+			left: 10px;
+			position: absolute;
+		}
+
+		.explorer span {
+			font-size: 0.8em;
+			text-align: center;
+			position: absolute;
+			top: 60%;
+			left: 40%;
+			transform: translate(-35%, -60%);
+			opacity: 0;
+			animation-fill-mode: forwards;
+		}
+
+		@keyframes loading {
+			from {
+				box-shadow: calc(-1 * var(--width)) 3px 1px -1px rgba(89, 171, 227, .5);
+			}
+
+			to {
+				box-shadow: 0 3px 1px -1px rgba(89, 171, 227, .7);
+			}
+		}
+
+		@keyframes error {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+	</style>
+	
+
+</head>
+<body>
+	<div class="explorer" data-url="https://lucaswilson.in/WHY-ARE-YOU-HERE?">
+		<span>
+			<b>ERROR #404</b><br>
+			Oops! I'm afraid you've found a page that doesn't really exist.
+			That can happen when you follow a link to something that has since been deleted.
+			Or the link was incorrect to begin with.<br>
+			Sorry about that.<br>
+			I've logged the error for review, in case it's our fault.
+			For now, go back <a href='index.html'>home</a> and start over.
+		</span>
+	</div>
+
+	<script>
+		const explorer = document.querySelector(".explorer");
+		let i = 0,
+			data = "",
+			url = explorer.getAttribute("data-url");
+
+		let typing = setInterval(() => {
+			if (i == url.length) {
+				clearInterval(typing);
+				document.styleSheets[0].insertRule(
+					".explorer:before{ animation: loading 2s .5s; }",
+					0
+				);
+				document.styleSheets[0].insertRule(
+					".explorer span{ animation: error 3s 2.5s; }",
+					0
+				);
+			} else {
+				data += url[i];
+				explorer.setAttribute("data-url", data);
+				i++;
+			}
+		}, 200);
+	</script>
+</body>
+
+</html>
